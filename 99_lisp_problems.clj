@@ -1,6 +1,43 @@
 ;from http://www.ic.unicamp.br/~meidanis/courses/mc336/2006s2/funcional/L-99_Ninety-Nine_Lisp_Problems.html
-(defn last [l]
-  "Finds the last box of a list"
+
+;the following functions look weird because they include tests
+;instead of
+;(defn name [args]
+;   body)
+;
+;I do
+;
+;(defn 
+;  METADATA 
+;  name [args] 
+;  body)
+;
+;to load the file, just do
+;(load-file path/to/here)
+;
+;to test any of the functions, do
+;
+;(test #'<function-name>)
+;
+;or
+;
+;(test (var <function-name>))
+;
+;to test any of the functions, just 
+
+;for some reason, in tests, we can't do
+;#((assert :assertion))
+;because it gives a nullPointerException
+;but I hate writing
+;(fn [] (assert :assertion))
+;so I created this macro
+(defmacro go [body]
+  `(fn [] ~body))
+
+(defn
+  ^{:doc "Finds the last box of a list"
+    :test (go (assert (= '(4) (last [1 2 3 4]))))}
+  last [l]
   (if (empty? (rest l))
         l
       (recur (rest l))))
