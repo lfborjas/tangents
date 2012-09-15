@@ -42,14 +42,22 @@
         l
       (recur (rest l))))
 
-(defn last-but-one [l]
-  "Finds the last but one box of a list"
+(defn
+  ^{:doc "Finds the last-but-one box of a list"
+    :test (go 
+            (assert (= 
+                      '(3 4) 
+                      (last-but-one [1 2 3 4]))))}
+  last-but-one [l]
   (if (empty? (-> l rest rest))
        l
       (recur (rest l))))
 
-(defn element-at [l pos]
-  "Finds the element at the k-th position of a list"
+(defn 
+  ^{:doc "Finds the element at the k-th position of a list"
+    :test (go (assert (= 3 (element-at [1 2 3 4] 2))))}
+
+  element-at [l pos]
   (loop [lst l index pos current-index 0]
     (if (= current-index index)
       (first lst)
@@ -58,25 +66,35 @@
 (defmacro unless [condition alternative consequence]
   `(if ~condition ~consequence ~alternative))
 
-(defn len [l]
-  "Finds the length of a list"
+(defn
+  ^{:doc "Finds the length of a list"
+    :test (go (assert (= 3 (len [1 2 3]))))}
+  len [l]
   (loop [lst l cnt 0]
     (unless (empty? lst)
        (recur (rest lst) (inc cnt))
        cnt)))
 
-(defn reverse [l]
-  "Reverses a list"
+(defn
+  ^{:doc "Reverses a list"
+    :test (go (assert (=
+                        '(4 3 2 1)
+                        (reverse [1 2 3 4]))))}
+  reverse [l]
   (loop [lst l acum []]
     (if (empty? lst)
       acum
       (recur (rest lst) (cons (first lst) acum)))))
 
 ;determines if a list is a palindrome
+;doesn't deserve a test!
 (def is-palindrome? #(= % (reverse %)))
 
-(defn flatten [l]
-  "Flattens a nested list"
+(defn
+  ^{:doc "Flattens a nested list"
+    :test (go (assert (= '(:a :b :c :d :e)
+                         (flatten '(:a (:b (:c :d) :e))))))}
+  flatten [l]
   (if (empty? l) []
     (let
       [[head & tail] l]
@@ -85,8 +103,11 @@
         ;else
         (concat [ head ]       (flatten tail))))))
 
-(defn compress [l]
-  "Eliminate consecutive duplicates in a list"
+(defn
+  ^{:doc "Eliminate consecutive duplicates in a list"
+    :test (go (assert (= '(:a :b :c)
+                         (compress [:a :a :b :c :c :c]))))}
+  compress [l]
   (loop [lst l current-elem (first l) acum [(first l)]]
     (let [[head & tail] lst]
       (cond
